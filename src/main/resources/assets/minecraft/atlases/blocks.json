@@ -1,0 +1,14 @@
+{
+  "sources": [
+    {
+      "type": "directory",
+      "source": "models/lightsaber",
+      "prefix": "models/lightsaber/"
+    },
+    {
+      "type": "directory",
+      "source": "entity/sconce",
+      "prefix": "entity/sconce/"
+    }
+  ]
+}

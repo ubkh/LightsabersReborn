@@ -1,0 +1,456 @@
+package dev.ubayd.lightsabersreborn.item;
+
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
+
+import dev.ubayd.lightsabersreborn.registry.LightsaberItems;
+import dev.ubayd.lightsabersreborn.registry.LightsaberSoundEvents;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.TntBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
+import org.jetbrains.annotations.NotNull;
+
+@SuppressWarnings("resource")
+public class LightsaberItem extends Item{
+
+    private final float attackDamage;
+    private final float attackSpeed;
+    private final Multimap<Attribute, AttributeModifier> attribute;
+    private final LightsaberTier tier;
+    private boolean isSneaking = false;
+    private boolean holdsOne = false;
+
+    public LightsaberItem(Item.Properties properties, LightsaberTier tier)
+    {
+        super(properties.stacksTo(1));
+        this.tier = tier;
+        this.attackDamage = -1.0F + tier.getAttackDamage();
+        this.attackSpeed = -4.0F + tier.getAttackSpeed();
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> attributeBuilder = ImmutableMultimap.<Attribute, AttributeModifier>builder();
+        attributeBuilder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", (double)this.attackDamage, AttributeModifier.Operation.ADDITION));
+        attributeBuilder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", (double)this.attackSpeed, AttributeModifier.Operation.ADDITION));
+        this.attribute = attributeBuilder.build();
+//        if(!SPCompatibilityManager.isSwordBlockingLoaded()) {
+//            DispenserBlock.registerBehavior(this, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
+//        }
+    }
+
+    @Override
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level worldIn, Player playerIn, @NotNull InteractionHand handIn){
+
+        ItemStack itemStackIn = playerIn.getItemInHand(handIn);
+        Item item = itemStackIn.getItem();
+        CompoundTag tag = item.getShareTag(itemStackIn);
+
+        ItemStack red = new ItemStack(LightsaberItems.red_lightsaber_hilt.get());
+        red.setTag(tag);
+
+        ItemStack blue = new ItemStack(LightsaberItems.blue_lightsaber_hilt.get());
+        blue.setTag(tag);
+
+        ItemStack green = new ItemStack(LightsaberItems.green_lightsaber_hilt.get());
+        green.setTag(tag);
+
+        ItemStack yellow = new ItemStack(LightsaberItems.yellow_lightsaber_hilt.get());
+        yellow.setTag(tag);
+
+        ItemStack purple = new ItemStack(LightsaberItems.purple_lightsaber_hilt.get());
+        purple.setTag(tag);
+
+        ItemStack white = new ItemStack(LightsaberItems.white_lightsaber_hilt.get());
+        white.setTag(tag);
+
+        ItemStack dark = new ItemStack(LightsaberItems.darksaber_hilt.get());
+        dark.setTag(tag);
+
+        if(playerIn.isCrouching()) {
+            isSneaking = true;
+            if(item == LightsaberItems.red_lightsaber.get()){
+
+                if (ItemStack.isSameItem(playerIn.getOffhandItem(), itemStackIn))
+                {
+                    playerIn.setItemInHand(InteractionHand.OFF_HAND, red);
+                }
+                else
+                {
+                    playerIn.setItemInHand(InteractionHand.MAIN_HAND, red);
+                }
+                worldIn.playSound(playerIn, playerIn.blockPosition(), LightsaberSoundEvents.lightsaber_off.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
+                worldIn.gameEvent(playerIn, GameEvent.EQUIP, playerIn.blockPosition());
+            }
+            if(item == LightsaberItems.blue_lightsaber.get()){
+
+                if (ItemStack.isSameItem(playerIn.getOffhandItem(), itemStackIn))
+                {
+                    playerIn.setItemInHand(InteractionHand.OFF_HAND, blue);
+                }
+                else
+                {
+                    playerIn.setItemInHand(InteractionHand.MAIN_HAND, blue);
+                }
+                worldIn.playSound(playerIn, playerIn.blockPosition(), LightsaberSoundEvents.lightsaber_off.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
+                worldIn.gameEvent(playerIn, GameEvent.EQUIP, playerIn.blockPosition());
+            }
+            if(item == LightsaberItems.green_lightsaber.get()){
+
+                if (ItemStack.isSameItem(playerIn.getOffhandItem(), itemStackIn))
+                {
+                    playerIn.setItemInHand(InteractionHand.OFF_HAND, green);
+                }
+                else
+                {
+                    playerIn.setItemInHand(InteractionHand.MAIN_HAND, green);
+                }
+                worldIn.playSound(playerIn, playerIn.blockPosition(), LightsaberSoundEvents.lightsaber_off.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
+                worldIn.gameEvent(playerIn, GameEvent.EQUIP, playerIn.blockPosition());
+            }
+            if(item == LightsaberItems.yellow_lightsaber.get()){
+
+                if (ItemStack.isSameItem(playerIn.getOffhandItem(), itemStackIn))
+                {
+                    playerIn.setItemInHand(InteractionHand.OFF_HAND, yellow);
+                }
+                else
+                {
+                    playerIn.setItemInHand(InteractionHand.MAIN_HAND, yellow);
+                }
+                worldIn.playSound(playerIn, playerIn.blockPosition(), LightsaberSoundEvents.lightsaber_off.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
+                worldIn.gameEvent(playerIn, GameEvent.EQUIP, playerIn.blockPosition());
+            }
+
+            if(item == LightsaberItems.purple_lightsaber.get()){
+
+                if (ItemStack.isSameItem(playerIn.getOffhandItem(), itemStackIn))
+                {
+                    playerIn.setItemInHand(InteractionHand.OFF_HAND, purple);
+                }
+                else
+                {
+                    playerIn.setItemInHand(InteractionHand.MAIN_HAND, purple);
+                }
+                worldIn.playSound(playerIn, playerIn.blockPosition(), LightsaberSoundEvents.lightsaber_off.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
+                worldIn.gameEvent(playerIn, GameEvent.EQUIP, playerIn.blockPosition());
+            }
+            if(item == LightsaberItems.white_lightsaber.get()){
+
+                if (ItemStack.isSameItem(playerIn.getOffhandItem(), itemStackIn))
+                {
+                    playerIn.setItemInHand(InteractionHand.OFF_HAND, white);
+                }
+                else
+                {
+                    playerIn.setItemInHand(InteractionHand.MAIN_HAND, white);
+                }
+                worldIn.playSound(playerIn, playerIn.blockPosition(), LightsaberSoundEvents.lightsaber_off.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
+                worldIn.gameEvent(playerIn, GameEvent.EQUIP, playerIn.blockPosition());
+            }
+            if(item == LightsaberItems.darksaber.get()){
+
+                if (ItemStack.isSameItem(playerIn.getOffhandItem(), itemStackIn))
+                {
+                    playerIn.setItemInHand(InteractionHand.OFF_HAND, dark);
+                }
+                else
+                {
+                    playerIn.setItemInHand(InteractionHand.MAIN_HAND, dark);
+                }
+                worldIn.playSound(playerIn, playerIn.blockPosition(), LightsaberSoundEvents.darksaber_off.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
+                worldIn.gameEvent(playerIn, GameEvent.EQUIP, playerIn.blockPosition());
+            }
+        } else {
+            isSneaking = false;
+        }
+
+        if(playerIn.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof LightsaberItem && playerIn.getItemInHand(InteractionHand.OFF_HAND).isEmpty()) {
+            holdsOne = true;
+        } else if(playerIn.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof LightsaberItem && playerIn.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()) {
+            holdsOne = true;
+        } else {
+            holdsOne = false;
+        }
+
+        if(holdsOne){
+            playerIn.startUsingItem(handIn);
+            return new InteractionResultHolder<ItemStack>(InteractionResult.SUCCESS, itemStackIn);
+        }
+
+        return new InteractionResultHolder<ItemStack>(InteractionResult.PASS, itemStackIn);
+    }
+
+    @Override
+    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack stack)
+    {
+        if(isSneaking) {
+            return UseAnim.NONE;
+        } else {
+            return UseAnim.BLOCK;
+        }
+    }
+
+    @Override
+    public boolean canPerformAction(ItemStack stack, net.minecraftforge.common.ToolAction toolAction)
+    {
+        return net.minecraftforge.common.ToolActions.DEFAULT_SHIELD_ACTIONS.contains(toolAction);
+    }
+
+    @Override
+    public boolean onDroppedByPlayer(ItemStack itemStackIn, Player playerIn)
+    {
+        Level worldIn = playerIn.getCommandSenderWorld();
+        Item item = itemStackIn.getItem();
+        CompoundTag tag = item.getShareTag(itemStackIn);
+
+        ItemStack red = new ItemStack(LightsaberItems.red_lightsaber_hilt.get());
+        red.setTag(tag);
+
+        ItemStack blue = new ItemStack(LightsaberItems.blue_lightsaber_hilt.get());
+        blue.setTag(tag);
+
+        ItemStack green = new ItemStack(LightsaberItems.green_lightsaber_hilt.get());
+        green.setTag(tag);
+
+        ItemStack yellow = new ItemStack(LightsaberItems.yellow_lightsaber_hilt.get());
+        yellow.setTag(tag);
+
+        ItemStack purple = new ItemStack(LightsaberItems.purple_lightsaber_hilt.get());
+        purple.setTag(tag);
+
+        ItemStack white = new ItemStack(LightsaberItems.white_lightsaber_hilt.get());
+        white.setTag(tag);
+
+        ItemStack dark = new ItemStack(LightsaberItems.darksaber_hilt.get());
+        dark.setTag(tag);
+
+        if(item == LightsaberItems.red_lightsaber.get()){
+
+            if (ItemStack.isSameItem(playerIn.getOffhandItem(), itemStackIn))
+            {
+                playerIn.setItemInHand(InteractionHand.OFF_HAND, red);
+            }
+            else
+            {
+                playerIn.setItemInHand(InteractionHand.MAIN_HAND, red);
+            }
+            worldIn.playSound(playerIn, playerIn.blockPosition(), LightsaberSoundEvents.lightsaber_off.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
+            worldIn.gameEvent(playerIn, GameEvent.EQUIP, playerIn.blockPosition());
+            return true;
+        }
+        if(item == LightsaberItems.blue_lightsaber.get()){
+
+            if (ItemStack.isSameItem(playerIn.getOffhandItem(), itemStackIn))
+            {
+                playerIn.setItemInHand(InteractionHand.OFF_HAND, blue);
+            }
+            else
+            {
+                playerIn.setItemInHand(InteractionHand.MAIN_HAND, blue);
+            }
+            worldIn.playSound(playerIn, playerIn.blockPosition(), LightsaberSoundEvents.lightsaber_off.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
+            worldIn.gameEvent(playerIn, GameEvent.EQUIP, playerIn.blockPosition());
+            return true;
+        }
+        if(item == LightsaberItems.green_lightsaber.get()){
+
+            if (ItemStack.isSameItem(playerIn.getOffhandItem(), itemStackIn))
+            {
+                playerIn.setItemInHand(InteractionHand.OFF_HAND, green);
+            }
+            else
+            {
+                playerIn.setItemInHand(InteractionHand.MAIN_HAND, green);
+            }
+            worldIn.playSound(playerIn, playerIn.blockPosition(), LightsaberSoundEvents.lightsaber_off.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
+            worldIn.gameEvent(playerIn, GameEvent.EQUIP, playerIn.blockPosition());
+            return true;
+        }
+        if(item == LightsaberItems.yellow_lightsaber.get()){
+
+            if (ItemStack.isSameItem(playerIn.getOffhandItem(), itemStackIn))
+            {
+                playerIn.setItemInHand(InteractionHand.OFF_HAND, yellow);
+            }
+            else
+            {
+                playerIn.setItemInHand(InteractionHand.MAIN_HAND, yellow);
+            }
+            worldIn.playSound(playerIn, playerIn.blockPosition(), LightsaberSoundEvents.lightsaber_off.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
+            worldIn.gameEvent(playerIn, GameEvent.EQUIP, playerIn.blockPosition());
+            return true;
+        }
+        if(item == LightsaberItems.purple_lightsaber.get()){
+
+            if (ItemStack.isSameItem(playerIn.getOffhandItem(), itemStackIn))
+            {
+                playerIn.setItemInHand(InteractionHand.OFF_HAND, purple);
+            }
+            else
+            {
+                playerIn.setItemInHand(InteractionHand.MAIN_HAND, purple);
+            }
+            worldIn.playSound(playerIn, playerIn.blockPosition(), LightsaberSoundEvents.lightsaber_off.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
+            worldIn.gameEvent(playerIn, GameEvent.EQUIP, playerIn.blockPosition());
+            return true;
+        }
+        if(item == LightsaberItems.white_lightsaber.get()){
+
+            if (ItemStack.isSameItem(playerIn.getOffhandItem(), itemStackIn))
+            {
+                playerIn.setItemInHand(InteractionHand.OFF_HAND, white);
+            }
+            else
+            {
+                playerIn.setItemInHand(InteractionHand.MAIN_HAND, white);
+            }
+            worldIn.playSound(playerIn, playerIn.blockPosition(), LightsaberSoundEvents.lightsaber_off.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
+            worldIn.gameEvent(playerIn, GameEvent.EQUIP, playerIn.blockPosition());
+            return true;
+        }
+        if(item == LightsaberItems.darksaber.get()){
+
+            if (ItemStack.isSameItem(playerIn.getOffhandItem(), itemStackIn))
+            {
+                playerIn.setItemInHand(InteractionHand.OFF_HAND, dark);
+            }
+            else
+            {
+                playerIn.setItemInHand(InteractionHand.MAIN_HAND, dark);
+            }
+            worldIn.playSound(playerIn, playerIn.blockPosition(), LightsaberSoundEvents.darksaber_off.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
+            worldIn.gameEvent(playerIn, GameEvent.EQUIP, playerIn.blockPosition());
+            return true;
+        }
+
+        return true;
+    }
+
+    /**
+     * How long it takes to use or consume an item
+     */
+    @Override
+    public int getUseDuration(ItemStack stack)
+    {
+        if(stack.getUseAnimation() == UseAnim.BLOCK) {
+            return 72000;
+        } else {
+            return 0;
+        }
+    }
+
+    @Override
+    public boolean onEntitySwing(ItemStack stack, LivingEntity entityLiving)
+    {
+        if(stack.getItem() == LightsaberItems.darksaber.get()){
+            entityLiving.level().playSound((Player) entityLiving, entityLiving.blockPosition(), LightsaberSoundEvents.darksaber_swing.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
+        } else {
+            entityLiving.level().playSound((Player) entityLiving, entityLiving.blockPosition(), LightsaberSoundEvents.lightsaber_swing.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
+        }
+        entityLiving.level().gameEvent(entityLiving, GameEvent.ITEM_INTERACT_FINISH, entityLiving.blockPosition());
+        return false;
+    }
+
+    @Override
+    public boolean canAttackBlock(@NotNull BlockState state, @NotNull Level world, @NotNull BlockPos pos, Player player)
+    {
+        return !player.isCreative();
+    }
+
+    /**
+     * Returns the amount of damage this item will deal. One heart of damage is equal to 2 damage points.
+     */
+    public float getAttackDamageBonus()
+    {
+        return this.tier.getAttackDamage();
+    }
+
+    @Override
+    public float getDestroySpeed(@NotNull ItemStack stack, BlockState state) {
+        if (state.is(Blocks.COBWEB)) {
+            return 15.0F;
+        } else if (state.is(BlockTags.LEAVES) || state.is(BlockTags.REPLACEABLE) || state.is(BlockTags.FLOWERS)) {
+            return 1.5F;
+        } else {
+            return 1.0F;
+        }
+    }
+
+    /**
+     * Check whether this Item can harvest the given Block
+     */
+    public boolean isCorrectToolForDrops(BlockState blockIn)
+    {
+        return blockIn.getBlock() == Blocks.COBWEB;
+    }
+
+    @Override
+    public boolean onBlockStartBreak(ItemStack itemstack, BlockPos pos, Player player)
+    {
+        BlockState state = player.level().getBlockState(pos);
+        Block block = state.getBlock();
+        if(!player.isCreative() && block instanceof TntBlock && state.getProperties().contains(TntBlock.UNSTABLE) && !state.getValue(TntBlock.UNSTABLE)) {
+            try {
+                ((TntBlock) block).onCaughtFire(state, player.level(), pos, player.getDirection(), player);
+                player.level().setBlock(pos, Blocks.AIR.defaultBlockState(), 11);
+            } catch(Exception e) {
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Return the enchantability factor of the item, most of the time is based on material.
+     */
+    public int getEnchantmentValue()
+    {
+        return this.tier.getEnchantability();
+    }
+
+    public boolean isEnchantable(@NotNull ItemStack stack)
+    {
+        return this.getMaxStackSize(stack) == 1;
+    }
+
+    public boolean canApplyAtEnchantingTable(ItemStack stack, net.minecraft.world.item.enchantment.Enchantment enchantment)
+    {
+        if(enchantment.category == EnchantmentCategory.WEAPON)
+            return true;
+        else
+            return false;
+    }
+
+    /**
+     * Return the name for this tool's material.
+     */
+    public String getLightsaberMaterialName()
+    {
+        return this.tier.toString();
+    }
+
+    /**
+     * Gets a map of item attribute modifiers, used by ItemSword to increase hit damage.
+     */
+    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot equipmentSlot)
+    {
+        return equipmentSlot == EquipmentSlot.MAINHAND ? this.attribute : super.getDefaultAttributeModifiers(equipmentSlot);
+    }
+
+}

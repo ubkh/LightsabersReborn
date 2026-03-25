@@ -1,0 +1,17 @@
+{
+	"parent": "lightsabersreborn:item/red_lightsaber",
+	"ambientocclusion": false,
+	"texture_size": [32, 32],
+	"display": {
+		"firstperson_righthand": {
+			"rotation": [0, 7, 45],
+			"translation": [0, -3, 0],
+			"scale": [1, 1.2, 1]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, 5, 45],
+			"translation": [0, -3, 0],
+			"scale": [1, 1.2, 1]
+		}
+	}
+}

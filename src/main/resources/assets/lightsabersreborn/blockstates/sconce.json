@@ -1,0 +1,23 @@
+{
+  "variants": {
+    "darksaber=false,has_lightsaber=false,facing=north": { "model": "lightsabersreborn:block/sconce" },
+    "darksaber=false,has_lightsaber=false,facing=east": { "model": "lightsabersreborn:block/sconce", "y": 90 },
+    "darksaber=false,has_lightsaber=false,facing=south": { "model": "lightsabersreborn:block/sconce", "y": 180 },
+    "darksaber=false,has_lightsaber=false,facing=west": { "model": "lightsabersreborn:block/sconce", "y": 270 },
+
+    "darksaber=true,has_lightsaber=false,facing=north": { "model": "lightsabersreborn:block/sconce" },
+    "darksaber=true,has_lightsaber=false,facing=east": { "model": "lightsabersreborn:block/sconce", "y": 90 },
+    "darksaber=true,has_lightsaber=false,facing=south": { "model": "lightsabersreborn:block/sconce", "y": 180 },
+    "darksaber=true,has_lightsaber=false,facing=west": { "model": "lightsabersreborn:block/sconce", "y": 270 },
+
+    "darksaber=false,has_lightsaber=true,facing=north": { "model": "lightsabersreborn:block/sconce" },
+    "darksaber=false,has_lightsaber=true,facing=east": { "model": "lightsabersreborn:block/sconce", "y": 90 },
+    "darksaber=false,has_lightsaber=true,facing=south": { "model": "lightsabersreborn:block/sconce", "y": 180 },
+    "darksaber=false,has_lightsaber=true,facing=west": { "model": "lightsabersreborn:block/sconce", "y": 270 },
+
+    "darksaber=true,has_lightsaber=true,facing=north": { "model": "lightsabersreborn:block/sconce" },
+    "darksaber=true,has_lightsaber=true,facing=east": { "model": "lightsabersreborn:block/sconce", "y": 90 },
+    "darksaber=true,has_lightsaber=true,facing=south": { "model": "lightsabersreborn:block/sconce", "y": 180 },
+    "darksaber=true,has_lightsaber=true,facing=west": { "model": "lightsabersreborn:block/sconce", "y": 270 }
+  }
+}

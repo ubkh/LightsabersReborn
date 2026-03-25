@@ -1,0 +1,17 @@
+{
+	"parent": "lightsabersreborn:item/darksaber",
+	"ambientocclusion": false,
+	"texture_size": [32, 32],
+	"display": {
+		"firstperson_righthand": {
+		    "rotation": [0, 0, 45], 
+			"translation": [0, 0, 0],
+			"scale": [0.5, 1.12, 0.6]
+		},
+		"firstperson_lefthand": {
+		    "rotation": [0, 0, 45],
+			"translation": [0, 0, 0],
+			"scale": [0.5, 1.12, 0.6]
+		}
+	}
+}
